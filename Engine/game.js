@@ -9,4 +9,12 @@ class Game {
             }
         }
     }
+
+    setup() {
+        this.gfx.draw(this.grid);
+        this.currentBag = Tetriminos.getBag();
+        this.currentBag = Tetriminos.getBag().concat(this.currentBag);
+        this.currentPiece = cloneObject(this.currentBag.pop());
+        this.createPiecesList();
+    }
 }
