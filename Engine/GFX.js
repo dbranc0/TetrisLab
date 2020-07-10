@@ -36,4 +36,29 @@ class GFX_Engine {
             })
         });
     }
+
+    createSquare(x, y, color, isGhost) {
+        const square = { 
+            x: x,
+            y: y
+        };
+        const border = {
+            x: square.x + this.measures.border,
+            y: square.y + this.measures.border,
+            size: this.measures.size - 2 * this.measures.border
+        };
+    
+        if(isGhost) {
+            const offset = 2;
+            this.context.fillStyle = color;
+            this.context.fillRect(square.x, square.y, this.measures.size, this.measures.size);
+            this.context.fillStyle = "#000000";
+            this.context.fillRect(border.x, border.y, border.size - offset, border.size - offset);
+        } else {
+            this.context.fillStyle = this.borderColor;
+            this.context.fillRect(square.x, square.y, this.measures.size, this.measures.size);
+            this.context.fillStyle = color;
+            this.context.fillRect(border.x, border.y, border.size, border.size);
+        }
+    }
 }
