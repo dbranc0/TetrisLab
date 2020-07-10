@@ -61,4 +61,21 @@ class GFX_Engine {
             this.context.fillRect(border.x, border.y, border.size, border.size);
         }
     }
+
+    findGridPosition(mousePosition, grid) {
+        const _this = this;
+        let result = null;
+        grid.forEach(function(row, rowNr) {
+            row.forEach(function(cell, colNr) {
+                const square = {
+                    x: (_this.measures.size - _this.measures.border) * colNr + _this.measures.padding,
+                    y: (_this.measures.size - _this.measures.border) * rowNr + _this.measures.padding
+                };
+                if (checkBoundaries(mousePosition, square, _this)) {
+                    result = { cell: cell, x: colNr, y: rowNr };
+                }
+            })
+        });
+        return result;
+    }
 }
