@@ -25,4 +25,15 @@ class GFX_Engine {
     clear() {
         this.context.clearRect(0, 0, this.context.canvas.width, this.context.canvas.height)
     }
+
+    draw(grid) {
+        const _this = this;
+        grid.forEach(function(row, rowNr) {
+            row.forEach(function(cell, colNr) {
+                const x = (_this.measures.size - _this.measures.border) * colNr + _this.measures.padding;
+                const y = (_this.measures.size - _this.measures.border) * rowNr + _this.measures.padding;
+                _this.createSquare(x, y, cell.color, cell.selected);
+            })
+        });
+    }
 }
