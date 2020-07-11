@@ -284,6 +284,7 @@ class Game {
                             _this.gfx.context.canvas.remove();
                             _this.gfx = new GFX_Engine(event.target.innerHeight, "lab", { x:10, y:20 });
                             _this.gfx.draw(_this.grid);
+                            _this.createPiecesList();
                             _this.setEvents();
                 };
     }
