@@ -20,6 +20,19 @@
             border: 0px solid;
             border-color: black;
         } /* To remove the scrollbars */
+
+        ul {
+            list-style-type:none;
+        }
+
+        .nextPieces {
+            display:inline-block;
+            vertical-align:top;
+            border: 5px;
+            border-color: black;
+            border-style: solid;
+            padding: 10px;
+        }
     </style>
     <title>Tetris Lab</title>
 </head>
@@ -27,7 +40,7 @@
     <center>
         <div id="container" style="display:inline-block">
             <div id="lab" height="100%"style="display:inline-block"></div>
-            <div id="nextPieces"style="display:inline-block; vertical-align:top; font-size:20px; background-color: black"></div>
+            <div id="nextPieces" class="nextPieces"></div>
         </div>
     </center>
     <script src="./Engine/GFX.js"></script>
