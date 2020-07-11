@@ -30,5 +30,5 @@ let array = [];
 return array;
 }
 
-let game = new Game(new GFX_Engine());
+let game = new Game(new GFX_Engine(window.innerHeight));
 game.setup();

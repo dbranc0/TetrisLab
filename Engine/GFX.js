@@ -11,13 +11,15 @@ class GFX_Engine {
         white: "#000000" //change later because this is actually black
     }
 
-    constructor() {
-        this.measures = { padding: 5, size: 37, border: 2}
+    constructor(height) {
+        const PADDING = 5;
+        this.measures = { padding: PADDING, size: height / 20 - PADDING * 2, border: 2}
+        console.log(this.measures)
         this.borderColor = GFX_Engine.colors.black;
 
         let canvas = document.createElement("canvas");
         this.context = canvas.getContext("2d");
-        canvas.height = window.innerHeight;
+        canvas.height = height;
         canvas.width = (this.measures.size - this.measures.border) * 10 + this.measures.border + this.measures.padding * 2;
         document.getElementById("lab").append(canvas);
     }

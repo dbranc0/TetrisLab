@@ -204,66 +204,78 @@ class Game {
         this.createPiecesList();
 
         //EVENTS
+        this.setEvents();
+
+    }
+
+    setEvents() {
         const _this = this;
         document.getElementsByTagName("body")[0].addEventListener('keyup', (event) => {
             switch (event.key) {
                 case "e":
                     _this.rotatePiece("ccw");
                     break;
-
-                case "r":
-                    _this.rotatePiece("cw");
-                    break;
-            }
-
-        });
-
-        this.gfx.context.canvas.addEventListener("mousemove", function (event) {
-            _this.mouseMove(event);
-        });
-
-        this.gfx.context.canvas.addEventListener("click", function (event) {
-            const currentSquare = _this.findGridPosition(getMousePos(_this.gfx.context.canvas, event));
-
-            let pointer = { x: 0, y: 0 };
-            let currentPiece = _this.currentPiece;
-            let pivot = _this.currentPiece.pivot;
-
-            _this.unselectGrid();
-
-            let area = {
-                x: [currentSquare.x - pivot.x, currentSquare.x + (currentPiece.data[0].length - (pivot.x + 1))],
-                y: [currentSquare.y - pivot.y, currentSquare.y + (currentPiece.data.length - (pivot.y + 1))]
-            };
-
-
-            area = _this.pullToBottom(area);
-            if (_this.checkArea(area)) {
-                for (let r = area.y[0]; r <= area.y[1]; r++) {
-                    pointer.x = 0;
-                    for (let c = area.x[0]; c <= area.x[1]; c++) {
-                        const squareToSelect = _this.grid[r][c];
-                        if (currentPiece.data[pointer.y][pointer.x].filled) {
-                            squareToSelect.filled = currentPiece.data[pointer.y][pointer.x].filled;
-                            squareToSelect.color = _this.currentPiece.color;
-                        } 
-                        pointer.x++;
+                    
+                    case "r":
+                        _this.rotatePiece("cw");
+                        break;
                     }
-                    pointer.y++;
-                }
-            }
-
-            _this.checkLines()
-            _this.gfx.clear();
-            _this.gfx.draw(game.grid)
-
-            if (_this.currentBag.length == 6) _this.currentBag = Tetriminos.getBag().concat(_this.currentBag);
-            _this.currentPiece = cloneObject(_this.currentBag.pop());
-            _this.createPiecesList();
-        })
-        document.getElementById("lab").onmouseout = function(event) {
-            _this.unselectGrid();
-            _this.gfx.draw(_this.grid);
-        }
+                    
+                });
+                
+                this.gfx.context.canvas.addEventListener("mousemove", function (event) {
+                    _this.mouseMove(event);
+                });
+                
+                this.gfx.context.canvas.addEventListener("click", function (event) {
+                    const currentSquare = _this.findGridPosition(getMousePos(_this.gfx.context.canvas, event));
+                    
+                    let pointer = { x: 0, y: 0 };
+                    let currentPiece = _this.currentPiece;
+                    let pivot = _this.currentPiece.pivot;
+                    
+                    _this.unselectGrid();
+                    
+                    let area = {
+                        x: [currentSquare.x - pivot.x, currentSquare.x + (currentPiece.data[0].length - (pivot.x + 1))],
+                        y: [currentSquare.y - pivot.y, currentSquare.y + (currentPiece.data.length - (pivot.y + 1))]
+                    };
+                    
+                    
+                    area = _this.pullToBottom(area);
+                    if (_this.checkArea(area)) {
+                        for (let r = area.y[0]; r <= area.y[1]; r++) {
+                            pointer.x = 0;
+                            for (let c = area.x[0]; c <= area.x[1]; c++) {
+                                const squareToSelect = _this.grid[r][c];
+                                if (currentPiece.data[pointer.y][pointer.x].filled) {
+                                    squareToSelect.filled = currentPiece.data[pointer.y][pointer.x].filled;
+                                    squareToSelect.color = _this.currentPiece.color;
+                                } 
+                                pointer.x++;
+                            }
+                            pointer.y++;
+                        }
+                    }
+                    
+                    _this.checkLines()
+                    _this.gfx.clear();
+                    _this.gfx.draw(game.grid)
+                    
+                    if (_this.currentBag.length == 6) _this.currentBag = Tetriminos.getBag().concat(_this.currentBag);
+                    _this.currentPiece = cloneObject(_this.currentBag.pop());
+                    _this.createPiecesList();
+                })
+                document.getElementById("lab").onmouseout = function(event) {
+                            _this.unselectGrid();
+                            _this.gfx.draw(_this.grid);
+                };
+                
+                window.onresize = function(event) {
+                            _this.gfx.context.canvas.remove();
+                            _this.gfx = new GFX_Engine(event.target.innerHeight);
+                            _this.gfx.draw(_this.grid);
+                            _this.setEvents();
+                };
     }
 }
