@@ -11,15 +11,16 @@ class GFX_Engine {
         white: "#000000" //change later because this is actually black
     }
 
-    constructor(height) {
-        this.measures = { padding: 5, size: height / 20, border: 2}
+    constructor(height, divId, gridSize) {
+        console.log(gridSize);
+        this.measures = { padding: 5, size: height / gridSize.y, border: 2}
         this.borderColor = GFX_Engine.colors.black;
 
         let canvas = document.createElement("canvas");
         this.context = canvas.getContext("2d");
         canvas.height = height;
-        canvas.width = (this.measures.size - this.measures.border) * 10 + this.measures.border + this.measures.padding * 2;
-        document.getElementById("lab").append(canvas);
+        canvas.width = (this.measures.size - this.measures.border) * gridSize.x + this.measures.border + this.measures.padding * 2;
+        document.getElementById(divId).append(canvas);
     }
 
     clear() {
@@ -32,12 +33,13 @@ class GFX_Engine {
             row.forEach(function(cell, colNr) {
                 const x = (_this.measures.size - _this.measures.border) * colNr + _this.measures.padding;
                 const y = (_this.measures.size - _this.measures.border) * rowNr + _this.measures.padding;
+
                 _this.createSquare(x, y, cell.color, cell.selected);
             })
         });
     }
 
-    createSquare(x, y, color, isGhost) {
+    createSquare(x, y, color, isGhost = false) {
         const square = { 
             x: x,
             y: y

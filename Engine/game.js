@@ -103,19 +103,28 @@ class Game {
     createPiecesList() {
         const div = document.getElementById("nextPieces");
         let list = document.createElement("ul");
+        div.innerHTML = "";
+        div.appendChild(list);
 
         let i = this.currentBag.length - 1;
         const marker = i;
         while (marker - i < 6) {
             const piece = this.currentBag[i];
             let item = document.createElement("li");
-            item.innerHTML = piece.name;
-            item.style.color = piece.color;
+            item.id = "piece" + i;
             list.appendChild(item);
+            
+            try {
+                piece.engine.context.canvas.remove();
+            } catch(error) {
+                //ignore error
+            }
+
+            piece.engine = new GFX_Engine(window.innerHeight / 20, item.id, { x:piece.data[0].length, y:piece.data.length });
+            piece.engine.draw(piece.data);
+            item.append(piece.engine.context.canvas);
             i--;
         }
-        div.innerHTML = "";
-        div.appendChild(list);
     }
 
     findGridPosition(mousePosition) {
@@ -273,7 +282,7 @@ class Game {
                 
                 window.onresize = function(event) {
                             _this.gfx.context.canvas.remove();
-                            _this.gfx = new GFX_Engine(event.target.innerHeight);
+                            _this.gfx = new GFX_Engine(event.target.innerHeight, "lab", { x:10, y:20 });
                             _this.gfx.draw(_this.grid);
                             _this.setEvents();
                 };
