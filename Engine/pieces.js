@@ -61,15 +61,48 @@ class Tetriminos {
     ]
 
     static getPiece(name) {
-        return cloneObject(this.pieces.find((piece) => piece.name == name.toUpperCase()));
+        let piece = cloneObject(this.pieces.find((piece) => piece.name == name.toUpperCase()));
+        return this.rotateRandomTimes(piece);
+    }
+
+    static rotateRandomTimes(piece) {
+        const timesToRotate = Math.floor(Math.random() * (5));
+        for (let i = 0; i < timesToRotate; i++) {
+            piece = this.rotatePiece(piece);
+        }
+        return piece;
     }
 
     static getBag() {
         let bag = [];
+        const _this = this;
         this.pieces.forEach(function(piece) {
-            bag.push(cloneObject(piece));
+            bag.push(_this.rotateRandomTimes(cloneObject(piece)));
         })
         shuffle(bag);
         return bag;
+    }
+
+    static rotatePiece(piece) {
+        piece = cloneObject(piece);
+        let originalPivot = cloneObject(piece.pivot);
+        let data = create2dArray(piece.data.length, piece.data[0].length);
+
+        let pointer = { row: piece.data.length - 1, col: 0 };
+
+        for (let row = 0; row < data.length; row++) {
+            for (let col = 0; col < data[0].length; col++) {
+                if (col == originalPivot.y && row == originalPivot.x) {
+                    piece.pivot = { "x": pointer.row, "y": pointer.col };
+                }
+                data[row][col] = piece.data[pointer.row][pointer.col];
+                pointer.row--;
+            }
+            pointer.row = piece.data.length - 1;
+            pointer.col++;
+        }
+
+        piece.data = data;
+        return piece;
     }
 }
