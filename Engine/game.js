@@ -120,7 +120,7 @@ class Game {
                 //ignore error
             }
 
-            piece.engine = new GFX_Engine(window.innerHeight / 20, item.id, { x:piece.data[0].length, y:piece.data.length });
+            piece.engine = new GFX_Engine((this.gfx.measures.size - 20) * piece.data.length, item.id, { x:piece.data[0].length, y:piece.data.length });
             piece.engine.draw(piece.data);
             item.append(piece.engine.context.canvas);
             i--;
