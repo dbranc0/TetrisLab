@@ -12,7 +12,6 @@ class GFX_Engine {
     }
 
     constructor(height, divId, gridSize) {
-        console.log(gridSize);
         this.measures = { padding: 5, size: height / gridSize.y, border: 2}
         this.borderColor = GFX_Engine.colors.black;
 

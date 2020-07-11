@@ -61,11 +61,14 @@ class Tetriminos {
     ]
 
     static getPiece(name) {
-        return this.pieces.find((piece) => piece.name == name.toUpperCase());
+        return cloneObject(this.pieces.find((piece) => piece.name == name.toUpperCase()));
     }
 
     static getBag() {
-        let bag = this.pieces.slice();
+        let bag = [];
+        this.pieces.forEach(function(piece) {
+            bag.push(cloneObject(piece));
+        })
         shuffle(bag);
         return bag;
     }
