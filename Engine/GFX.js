@@ -12,9 +12,7 @@ class GFX_Engine {
     }
 
     constructor(height) {
-        const PADDING = 5;
-        this.measures = { padding: PADDING, size: height / 20 - PADDING * 2, border: 2}
-        console.log(this.measures)
+        this.measures = { padding: 5, size: height / 20, border: 2}
         this.borderColor = GFX_Engine.colors.black;
 
         let canvas = document.createElement("canvas");
