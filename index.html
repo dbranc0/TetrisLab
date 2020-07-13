@@ -25,15 +25,26 @@
             list-style-type:none;
         }
 
-        .nextPieces {
-            margin-top: 7px;
+        .sides {
             display:inline-block;
             vertical-align:top;
+        }
+
+        .nextPieces {
+            margin-top: 7px;
             border: 5px;
             border-color: black;
             border-style: solid;
             padding: 10px;
             background-color: #444444;
+        }
+
+        .currentPiece {
+            margin-top: 7px;
+        }
+
+        .holdPiece {
+            margin-top: 7px;
         }
 
         li {
@@ -49,8 +60,12 @@
 <body>
     <center>
         <div id="container" style="display:inline-block">
+            <div id="holdPiece" class="holdPiece sides nextPieces"></div>
             <div id="lab" height="100%"style="display:inline-block"></div>
-            <div id="nextPieces" class="nextPieces"></div>
+            <div id="rightSide" class="sides">
+                <div id="currentPiece" class="currentPiece nextPieces"></div>
+                <div id="nextPieces" class="nextPieces"></div>
+            </div>
         </div>
     </center>
     <script src="./Engine/GFX.js"></script>

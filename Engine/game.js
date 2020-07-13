@@ -120,11 +120,37 @@ class Game {
                 //ignore error
             }
 
-            piece.engine = new GFX_Engine((this.gfx.measures.size - 20) * piece.data.length, item.id, { x:piece.data[0].length, y:piece.data.length });
-            piece.engine.draw(piece.data);
-            item.append(piece.engine.context.canvas);
+            item.append(this.getPieceCanvas(piece, item.id));
             i--;
         }
+
+        const currentPieceDiv = document.getElementById("currentPiece");
+        try {
+            currentPieceDiv.firstChild.remove();
+        } catch (error) {
+            
+        }
+
+        currentPieceDiv.appendChild(this.getPieceCanvas(this.currentPiece, "currentPiece"));
+
+        const holdPieceDiv = document.getElementById("holdPiece");
+        try {
+            holdPieceDiv.firstChild.remove();
+        } catch (error) {
+            
+        }
+
+        try {
+            holdPieceDiv.appendChild(this.getPieceCanvas(this.holdPiece, "holdPiece"));
+        } catch (error) {
+            
+        }
+    }
+
+    getPieceCanvas(piece, canvasId) {
+        let engine = new GFX_Engine((this.gfx.measures.size - 20) * piece.data.length, canvasId, { x:piece.data[0].length, y:piece.data.length });
+        engine.draw(piece.data);
+        return engine.context.canvas;
     }
 
     findGridPosition(mousePosition) {
@@ -217,6 +243,18 @@ class Game {
 
     }
 
+    swapHeldPiece() {
+        if (this.holdPiece) {
+            let heldPiece = this.holdPiece;
+            this.holdPiece = this.currentPiece;
+            this.currentPiece = heldPiece;
+        } else {
+            this.holdPiece = this.currentPiece;
+            this.currentPiece = cloneObject(this.currentBag.pop());
+        }
+        this.createPiecesList();
+    }
+
     setEvents() {
         const _this = this;
         document.getElementsByTagName("body")[0].addEventListener('keyup', (event) => {
@@ -225,9 +263,12 @@ class Game {
                     _this.rotatePiece("ccw");
                     break;
                     
-                    case "r":
-                        _this.rotatePiece("cw");
-                        break;
+                case "r":
+                    _this.rotatePiece("cw");
+                    break;
+
+                case "q":
+                    _this.swapHeldPiece();
                     }
                     
                 });
