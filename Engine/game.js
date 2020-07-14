@@ -231,16 +231,35 @@ class Game {
         }
     }
 
+    updateTutorial() {
+        const _this = this;
+        const templateTutorial = document.getElementById("TutorialTemplate");
+        const tutorialDiv = document.getElementById("Tutorial");
+        tutorialDiv.innerHTML = templateTutorial.innerHTML;
+        const fields = Object.keys(this.keys);
+        fields.forEach(function(field) {
+            tutorialDiv.innerHTML = tutorialDiv.innerHTML.replace("*" + field + "*", _this.keys[field].toUpperCase());
+        });
+    }
+
+    changeKey(key) {
+        this.awaitingHotkey = {awaiting: true, hotkey: key};
+    }
+
     setup() {
+        this.keys = {
+            CWRotation: "r",
+            CCWRotation: "e",
+            Hold: "q"
+        };
+        this.awaitingHotkey = {awaiting: false, hotkey: ""};
+        this.updateTutorial();
         this.gfx.draw(this.grid);
         this.currentBag = Tetriminos.getBag();
         this.currentBag = Tetriminos.getBag().concat(this.currentBag);
         this.currentPiece = cloneObject(this.currentBag.pop());
         this.createPiecesList();
-
-        //EVENTS
         this.setEvents();
-
     }
 
     swapHeldPiece() {
@@ -258,18 +277,24 @@ class Game {
     setEvents() {
         const _this = this;
         document.getElementsByTagName("body")[0].addEventListener('keyup', (event) => {
-            switch (event.key) {
-                case "e":
-                    _this.rotatePiece("ccw");
-                    break;
-                    
-                case "r":
-                    _this.rotatePiece("cw");
-                    break;
-
-                case "q":
-                    _this.swapHeldPiece();
-                    }
+            if(_this.awaitingHotkey.awaiting) {
+                if (event.key != "Escape") _this.keys[this.awaitingHotkey.hotkey] = event.key;
+                _this.awaitingHotkey.awaiting = false;
+                _this.updateTutorial();
+            } else {
+                switch (event.key) {
+                    case _this.keys.CCWRotation:
+                        _this.rotatePiece("ccw");
+                        break;
+                        
+                    case _this.keys.CWRotation:
+                        _this.rotatePiece("cw");
+                        break;
+    
+                    case _this.keys.Hold:
+                        _this.swapHeldPiece();
+                }
+            }
                     
                 });
                 

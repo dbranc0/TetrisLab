@@ -54,12 +54,32 @@
         li:first-child {
             margin-top: 0px;
         }
+
+        .tutorial {
+            margin-top: 8%;
+            background-color: #cccccc;
+            font-size: 25px;
+        }
+
+        a {
+            color: blue;
+        }
     </style>
     <title>Tetris Lab</title>
 </head>
 <body>
+    <div id="TutorialTemplate" style="display:none">
+        <ul>
+            <li><a onclick='game.changeKey("CWRotation")'>*CWRotation*</a> to rotate clockwise</li>
+            <li><a onclick='game.changeKey("CCWRotation")'>*CCWRotation*</a> to rotate counter clockwise</li>
+            <li><a onclick='game.changeKey("Hold")'>*Hold*</a> to swap held piece with current piece</li>
+            <li>Click any of them to change the key</li>
+        </ul>
+    </div>
     <center>
         <div id="container" style="display:inline-block">
+            <div id="Tutorial" class="tutorial sides">
+            </div>
             <div id="holdPiece" class="holdPiece sides nextPieces"></div>
             <div id="lab" height="100%"style="display:inline-block"></div>
             <div id="rightSide" class="sides">
