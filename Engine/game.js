@@ -244,6 +244,8 @@ class Game {
 
     changeKey(key) {
         this.awaitingHotkey = {awaiting: true, hotkey: key};
+        const tutorialDiv = document.getElementById("Tutorial");
+        tutorialDiv.innerHTML = "Press any key to remap to " + key + "<br>Press Escape to cancel"
     }
 
     setup() {
