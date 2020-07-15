@@ -56,13 +56,20 @@
         }
 
         .tutorial {
-            margin-top: 8%;
             background-color: #cccccc;
             font-size: 25px;
         }
 
         a {
             color: blue;
+        }
+
+        .buttons {
+            margin-top: 5%;
+        }
+
+        .leftSide {
+            margin-top: 8%;
         }
     </style>
     <title>Tetris Lab</title>
@@ -79,7 +86,14 @@
     </div>
     <center>
         <div id="container" style="display:inline-block">
-            <div id="Tutorial" class="tutorial sides">
+            <div class="leftSide sides">
+                <div id="Tutorial" class="tutorial">
+                </div>
+                <div id="buttons" class="buttons">
+                    <ul>
+                        <li><button onclick="game = new Game(game.gfx); game.setup();">Restart</button></li>
+                    </ul>
+                </div>
             </div>
             <div id="holdPiece" class="holdPiece sides nextPieces"></div>
             <div id="lab" height="100%"style="display:inline-block"></div>
