@@ -30,5 +30,34 @@ let array = [];
 return array;
 }
 
+function restartGame() {
+  game = new Game(game.gfx);
+  game.setup();
+}
+
+function restartWithBag() {
+  restartGame();
+  let piecesText = "";
+  while (hasIllegalPieces(piecesText)) {
+    piecesText = prompt("Choose a bag with the pieces you want: \n [S Z L J I O T]", "SZLJIOT");
+  }
+  let newBag = Tetriminos.getSpecificBag(piecesText.split(""));
+  game.currentPiece = newBag.pop();
+  game.currentBag = newBag;
+  game.createPiecesList();
+}
+
+function hasIllegalPieces(piecesText) {
+  piecesText = piecesText.trim();
+  let result = true;
+  if(piecesText) {
+    const arrayText = piecesText.split("");
+    result = !arrayText.every(function(char) {
+      return ["s","z","t","l","j","i","o"].includes(char.toLowerCase());
+    });
+  }
+  return result;
+}
+
 let game = new Game(new GFX_Engine(window.innerHeight, "lab",  { x:10, y:20 }));
 game.setup();

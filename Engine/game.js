@@ -101,6 +101,29 @@ class Game {
     }
 
     createPiecesList() {
+        const currentPieceDiv = document.getElementById("currentPiece");
+        try {
+            currentPieceDiv.firstChild.remove();
+        } catch (error) {
+            
+        }
+
+        currentPieceDiv.appendChild(this.getPieceCanvas(this.currentPiece, "currentPiece"));
+
+        const holdPieceDiv = document.getElementById("holdPiece");
+        try {
+            holdPieceDiv.firstChild.remove();
+        } catch (error) {
+            
+        }
+
+        try {
+            holdPieceDiv.appendChild(this.getPieceCanvas(this.holdPiece, "holdPiece"));
+        } catch (error) {
+            
+        }
+
+
         const div = document.getElementById("nextPieces");
         let list = document.createElement("ul");
         div.innerHTML = "";
@@ -122,28 +145,6 @@ class Game {
 
             item.append(this.getPieceCanvas(piece, item.id));
             i--;
-        }
-
-        const currentPieceDiv = document.getElementById("currentPiece");
-        try {
-            currentPieceDiv.firstChild.remove();
-        } catch (error) {
-            
-        }
-
-        currentPieceDiv.appendChild(this.getPieceCanvas(this.currentPiece, "currentPiece"));
-
-        const holdPieceDiv = document.getElementById("holdPiece");
-        try {
-            holdPieceDiv.firstChild.remove();
-        } catch (error) {
-            
-        }
-
-        try {
-            holdPieceDiv.appendChild(this.getPieceCanvas(this.holdPiece, "holdPiece"));
-        } catch (error) {
-            
         }
     }
 

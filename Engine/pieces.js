@@ -83,6 +83,16 @@ class Tetriminos {
         return bag;
     }
 
+    static getSpecificBag(pieces) {
+        let bag = [];
+        const _this = this;
+        for (let i = pieces.length - 1; i >= 0; i--) {
+            const piece = pieces[i];
+            bag.push(_this.getPiece(piece));
+        }
+        return bag;
+    }
+
     static rotatePiece(piece) {
         piece = cloneObject(piece);
         let originalPivot = cloneObject(piece.pivot);
