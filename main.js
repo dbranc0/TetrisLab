@@ -59,5 +59,18 @@ function hasIllegalPieces(piecesText) {
   return result;
 }
 
+function changeCurrentPiece(piece) {
+  //game.currentBag.push(game.currentPiece);
+  game.currentPiece = Tetriminos.getPiece(piece);
+  game.createPiecesList();
+}
+
 let game = new Game(new GFX_Engine(window.innerHeight, "lab",  { x:10, y:20 }));
 game.setup();
+Tetriminos.getBag().forEach(function(piece) {
+  game.getPieceCanvas(piece, piece.name);
+  const li = document.getElementById(piece.name);
+  li.onclick = function() {
+    changeCurrentPiece(piece.name);
+  }
+})
