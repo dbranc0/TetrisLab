@@ -58,6 +58,7 @@
         .tutorial {
             background-color: #cccccc;
             font-size: 25px;
+            width: 65%;
         }
 
         a {
@@ -70,6 +71,11 @@
 
         .leftSide {
             margin-top: 8%;
+            text-align: -webkit-center;
+        }
+
+        .pieceButton {
+            display:inline-block;
         }
     </style>
     <title>Tetris Lab</title>
@@ -82,12 +88,22 @@
             <li><a onclick='game.changeKey("CCWRotation")'>*CCWRotation*</a> to rotate counter clockwise</li>
             <li><a onclick='game.changeKey("Hold")'>*Hold*</a> to swap held piece with current piece</li>
             <li>Click any of them to change the key</li>
+            <li>Click any of the pieces below to change your current piece into that piece</li>
         </ul>
     </div>
-    <center>
-        <div id="container" style="display:inline-block">
-            <div class="leftSide sides">
+    <div class="leftSide sides">
                 <div id="Tutorial" class="tutorial">
+                </div>
+                <div id="pieceChangers">
+                    <ul id="pieceButtons">
+                        <li id="I" class="pieceButton"></li>
+                        <li id="J" class="pieceButton"></li>
+                        <li id="L" class="pieceButton"></li>
+                        <li id="S" class="pieceButton"></li>
+                        <li id="Z" class="pieceButton"></li>
+                        <li id="T" class="pieceButton"></li>
+                        <li id="O" class="pieceButton"></li>
+                    </ul>
                 </div>
                 <div id="buttons" class="buttons">
                     <ul>
@@ -95,26 +111,17 @@
                         <li><button onclick="restartWithBag();">Restart Game with Specific Bag</button></li>
                     </ul>
                 </div>
-                <div>
-                    <ul id="pieceButtons">
-                        <li id="I"></li>
-                        <li id="J"></li>
-                        <li id="L"></li>
-                        <li id="S"></li>
-                        <li id="Z"></li>
-                        <li id="T"></li>
-                        <li id="O"></li>
-                    </ul>
+                
+            </div>
+            <div id="container" style="display:inline-block; text-align: center;">
+                
+                <div id="holdPiece" class="holdPiece sides nextPieces"></div>
+                <div id="lab" height="100%"style="display:inline-block"></div>
+                <div id="rightSide" class="sides">
+                    <div id="currentPiece" class="currentPiece nextPieces"></div>
+                    <div id="nextPieces" class="nextPieces"></div>
                 </div>
             </div>
-            <div id="holdPiece" class="holdPiece sides nextPieces"></div>
-            <div id="lab" height="100%"style="display:inline-block"></div>
-            <div id="rightSide" class="sides">
-                <div id="currentPiece" class="currentPiece nextPieces"></div>
-                <div id="nextPieces" class="nextPieces"></div>
-            </div>
-        </div>
-    </center>
     <script src="./Engine/GFX.js"></script>
     <script src="./Engine/pieces.js"></script>
     <script src="./Engine/game.js"></script>
