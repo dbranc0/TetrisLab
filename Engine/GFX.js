@@ -8,7 +8,8 @@ class GFX_Engine {
         yellow: "#eeff00",
         cyan: "#00FFFF",
         purple: "#C217C2",
-        white: "#000000" //change later because this is actually black
+        white: "#000000", //change later because this is actually black
+        gray: "#AAAAAA"
     }
 
     constructor(height, divId, gridSize) {

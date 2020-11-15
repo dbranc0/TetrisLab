@@ -2,6 +2,7 @@ class Game {
     constructor(gfxEngine) {
         this.gfx = gfxEngine;
         this.grid = [];
+        this.designMode = false;
         for (let row = 0; row < 20; row++) {
             this.grid.push([]);
             for (let col = 0; col < 10; col++) {
@@ -65,6 +66,7 @@ class Game {
 
         let pointer = { x: 0, y: 0 };
         let currentPiece = this.currentPiece;
+        if (this.designMode) currentPiece = Tetriminos.getGrayPiece();
         let pivot = this.currentPiece.pivot;
 
         this.unselectGrid();
@@ -82,7 +84,7 @@ class Game {
                 for (let c = area.x[0]; c <= area.x[1]; c++) {
                     const squareToSelect = this.grid[r][c];
                     if (currentPiece.data[pointer.y][pointer.x].filled) squareToSelect.selected = currentPiece.data[pointer.y][pointer.x].filled;
-                    if (squareToSelect.selected) squareToSelect.color = this.currentPiece.color;
+                    if (squareToSelect.selected) squareToSelect.color = currentPiece.color;
                     pointer.x++;
                 }
                 pointer.y++;
@@ -253,7 +255,8 @@ class Game {
         this.keys = {
             CWRotation: "r",
             CCWRotation: "e",
-            Hold: "q"
+            Hold: "q",
+            GrayBlock: "g"
         };
         this.awaitingHotkey = {awaiting: false, hotkey: ""};
         this.updateTutorial();
@@ -263,6 +266,10 @@ class Game {
         this.currentPiece = cloneObject(this.currentBag.pop());
         this.createPiecesList();
         this.setEvents();
+    }
+
+    toggleDesignMode() {
+        this.designMode = !this.designMode;
     }
 
     swapHeldPiece() {
@@ -296,6 +303,11 @@ class Game {
     
                     case _this.keys.Hold:
                         _this.swapHeldPiece();
+                        break;
+
+                    case _this.keys.GrayBlock:
+                        _this.toggleDesignMode();
+                        break;
                 }
             }
                     
@@ -310,6 +322,7 @@ class Game {
                     
                     let pointer = { x: 0, y: 0 };
                     let currentPiece = _this.currentPiece;
+                    if (_this.designMode) currentPiece = Tetriminos.getGrayPiece();
                     let pivot = _this.currentPiece.pivot;
                     
                     _this.unselectGrid();
@@ -328,7 +341,7 @@ class Game {
                                 const squareToSelect = _this.grid[r][c];
                                 if (currentPiece.data[pointer.y][pointer.x].filled) {
                                     squareToSelect.filled = currentPiece.data[pointer.y][pointer.x].filled;
-                                    squareToSelect.color = _this.currentPiece.color;
+                                    squareToSelect.color = currentPiece.color;
                                 } 
                                 pointer.x++;
                             }
@@ -340,9 +353,11 @@ class Game {
                     _this.gfx.clear();
                     _this.gfx.draw(game.grid)
                     
-                    if (_this.currentBag.length == 6) _this.currentBag = Tetriminos.getBag().concat(_this.currentBag);
-                    _this.currentPiece = cloneObject(_this.currentBag.pop());
-                    _this.createPiecesList();
+                    if (!_this.designMode) {
+                        if (_this.currentBag.length == 6) _this.currentBag = Tetriminos.getBag().concat(_this.currentBag);
+                        _this.currentPiece = cloneObject(_this.currentBag.pop());
+                        _this.createPiecesList();
+                    }
                 })
                 document.getElementById("lab").onmouseout = function(event) {
                             _this.unselectGrid();

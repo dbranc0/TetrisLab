@@ -115,4 +115,12 @@ class Tetriminos {
         piece.data = data;
         return piece;
     }
+
+    static getGrayPiece() {
+        return {   name: "BLANK", color: GFX_Engine.colors.gray, pivot: { x: 0, y: 0 }, data: [
+            [
+                {   filled: true, color: GFX_Engine.colors.gray  }
+            ]
+        ]   };
+    }
 }
