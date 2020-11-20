@@ -65,6 +65,14 @@ function changeCurrentPiece(piece) {
   game.createPiecesList();
 }
 
+function generateLines() {
+  let lines = parseInt(prompt("how many lines of garbage?", 1));
+  let wellStart = parseInt(prompt("Where does your well start?", 1));
+  let wellLength = parseInt(prompt("how long is your well?", 1));
+  let garbageLines = Tetriminos.createLines(lines, wellStart, wellLength);
+  game.addGarbage(garbageLines);
+}
+
 let game = new Game(new GFX_Engine(window.innerHeight, "lab",  { x:10, y:20 }));
 game.setup();
 Tetriminos.getBag().forEach(function(piece) {

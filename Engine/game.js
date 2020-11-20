@@ -214,6 +214,13 @@ class Game {
         }
         this.grid = [result].concat(game.grid);
     }
+
+    addGarbage(garbageLines) {
+        this.grid = this.grid.filter((v,i) => i >= garbageLines.length);
+        console.log(this.grid)
+        this.grid = this.grid.concat(garbageLines);
+        this.gfx.draw(this.grid);
+    }
     
     checkLines() {
         let _this = this;

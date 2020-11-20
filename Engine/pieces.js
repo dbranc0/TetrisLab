@@ -117,10 +117,25 @@ class Tetriminos {
     }
 
     static getGrayPiece() {
-        return {   name: "BLANK", color: GFX_Engine.colors.gray, pivot: { x: 0, y: 0 }, data: [
-            [
-                {   filled: true, color: GFX_Engine.colors.gray  }
-            ]
-        ]   };
+        return {  selected:false, filled: true, color: GFX_Engine.colors.gray  };
+    }
+
+    static createLines(nrOfLines, wellBegin, wellLength) {
+        const emptySpace = {    selected: false, filled: false, color: GFX_Engine.colors.white  };
+        let line = [];
+        for(let i = 0; i < 10; i++) {
+            if((i + 1) < wellBegin || (i + 1) >= (wellBegin + wellLength)) {
+                line.push(this.getGrayPiece());
+            } else {
+                line.push(emptySpace);
+            }
+        }
+
+        let lines = [];
+        for(let i = 0; i < nrOfLines; i++) {
+            lines.push(line);
+        }
+
+        return lines;
     }
 }
