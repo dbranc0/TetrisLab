@@ -307,15 +307,15 @@ class Game {
     }
 
     removeLatestPiece() {
-        let pieceId = this.pieceHistory.pop();
-        this.removePiece(pieceId);
-        console.log(this.currentBag);
-        console.log("ADDING CURRENT PIECE BACK TO BAG");
-        this.currentBag = this.currentBag.concat([this.currentPiece]);
-        this.currentPiece = Tetriminos.getPiece(pieceId.split("")[0]);
-        console.log(this.currentBag);
-        this.createPiecesList();
-        this.gfx.draw(this.grid);
+        if (this.pieceHistory.length > 0) {
+            let pieceId = this.pieceHistory.pop();
+            this.removePiece(pieceId);
+            this.currentBag = this.currentBag.concat([this.currentPiece]);
+            this.currentPiece = Tetriminos.getPiece(pieceId.split("")[0]);
+            console.log(this.currentBag);
+            this.createPiecesList();
+            this.gfx.draw(this.grid);
+        }
     }
 
     setEvents() {
