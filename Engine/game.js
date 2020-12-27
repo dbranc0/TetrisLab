@@ -291,6 +291,18 @@ class Game {
         this.createPiecesList();
     }
 
+    removePiece(pieceId) {
+        this.grid.forEach(function(row, i, arr) {
+            arr[i] = row.map(function(block) {
+                if(block.pieceId == pieceId) {
+                    return {selected: false, filled: false, color: "#000000"};
+                } else { 
+                    return block; 
+                }
+            });
+        })
+    }
+
     setEvents() {
         const _this = this;
         document.getElementsByTagName("body")[0].addEventListener('keyup', (event) => {
@@ -349,6 +361,7 @@ class Game {
                                 if (currentPiece.data[pointer.y][pointer.x].filled) {
                                     squareToSelect.filled = currentPiece.data[pointer.y][pointer.x].filled;
                                     squareToSelect.color = currentPiece.color;
+                                    squareToSelect.pieceId = currentPiece.name;
                                 } 
                                 pointer.x++;
                             }
