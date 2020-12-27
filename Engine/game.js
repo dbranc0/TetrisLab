@@ -3,6 +3,8 @@ class Game {
         this.gfx = gfxEngine;
         this.grid = [];
         this.designMode = false;
+        this.pieceCounter = 0;
+        this.pieceHistory = [];
         for (let row = 0; row < 20; row++) {
             this.grid.push([]);
             for (let col = 0; col < 10; col++) {
@@ -263,7 +265,8 @@ class Game {
             CWRotation: "r",
             CCWRotation: "e",
             Hold: "q",
-            GrayBlock: "g"
+            GrayBlock: "g",
+            Undo: "u"
         };
         this.awaitingHotkey = {awaiting: false, hotkey: ""};
         this.updateTutorial();
@@ -303,6 +306,18 @@ class Game {
         })
     }
 
+    removeLatestPiece() {
+        let pieceId = this.pieceHistory.pop();
+        this.removePiece(pieceId);
+        console.log(this.currentBag);
+        console.log("ADDING CURRENT PIECE BACK TO BAG");
+        this.currentBag = this.currentBag.concat([this.currentPiece]);
+        this.currentPiece = Tetriminos.getPiece(pieceId.split("")[0]);
+        console.log(this.currentBag);
+        this.createPiecesList();
+        this.gfx.draw(this.grid);
+    }
+
     setEvents() {
         const _this = this;
         document.getElementsByTagName("body")[0].addEventListener('keyup', (event) => {
@@ -326,6 +341,10 @@ class Game {
 
                     case _this.keys.GrayBlock:
                         _this.toggleDesignMode();
+                        break;
+
+                    case _this.keys.Undo:
+                        _this.removeLatestPiece();
                         break;
                 }
             }
@@ -354,6 +373,8 @@ class Game {
                     
                     area = _this.pullToBottom(area);
                     if (_this.checkArea(area)) {
+                        _this.pieceHistory.push(currentPiece.name + _this.pieceCounter);
+                        
                         for (let r = area.y[0]; r <= area.y[1]; r++) {
                             pointer.x = 0;
                             for (let c = area.x[0]; c <= area.x[1]; c++) {
@@ -361,12 +382,13 @@ class Game {
                                 if (currentPiece.data[pointer.y][pointer.x].filled) {
                                     squareToSelect.filled = currentPiece.data[pointer.y][pointer.x].filled;
                                     squareToSelect.color = currentPiece.color;
-                                    squareToSelect.pieceId = currentPiece.name;
+                                    squareToSelect.pieceId = currentPiece.name + _this.pieceCounter;
                                 } 
                                 pointer.x++;
                             }
                             pointer.y++;
                         }
+                        _this.pieceCounter++;
                     }
                     
                     _this.checkLines()
