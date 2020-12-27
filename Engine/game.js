@@ -311,6 +311,7 @@ class Game {
             let pieceId = this.pieceHistory.pop();
             this.removePiece(pieceId);
             this.currentBag = this.currentBag.concat([this.currentPiece]);
+            this.currentPiece = Tetriminos.getPiece(pieceId.split("")[0]);
             this.createPiecesList();
             this.gfx.draw(this.grid);
         }
